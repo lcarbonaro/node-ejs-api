@@ -11,33 +11,42 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// set up client
 const client = contentful.createClient({
     space: process.env.SPACE_ID,
     accessToken: process.env.ACCESS_TOKEN
 })
 
-
-// home or index or default route
 app.get('/', async(req, res) => {
 
     client.getEntries()
     .then((response) => {
         
+        /* had this for just text before
         let plainTextItems = [];
         response.items.forEach((item) => {
-            plainTextItems.push( documentToPlainTextString(item.fields.blogPostBody) );
-        });  // end of forEach()       
+            plainTextItems.push( documentToPlainTextString(item.fields.blogPostBody) );           
+        });   
+        */
+        
+        let itemsTextWithPic = [];
+        response.items.forEach((item) => {
+            itemsTextWithPic.push( 
+                {
+                    text: documentToPlainTextString(item.fields.blogPostBody),
+                    picUrl: `https://${item.fields.blogPic.fields.file.url}?w=100`
+                }
+            );          
+        });  // end of response.items.forEach() 
 
         res.render('pages/home', {
             title: 'Home',  
-            items: plainTextItems //['bag','car','pen','pencil','book']     
+            //items: plainTextItems //['bag','car','pen','pencil','book']     
+            items: itemsTextWithPic
         });  // end of res.render('pages/home')
 
-    })  // end of .then()
+    });  // end of .then()
     
 });  // end of app.get('/')
-
 
 app.listen(8080, () => {    
     console.log("Server successfully running on port 8080");

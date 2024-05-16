@@ -9,8 +9,12 @@
         <% items.forEach(function(item) { %>
             
           <li>
-            <%= item %>
+            <%= item.text %>
+            <br/>
+            <img src="<%= item.picUrl %>" alt="">
           </li>
+
+          <hr/>
           
         <% }); %>
     </ul>
