@@ -1,2 +1,2 @@
 # node-ejs-api
-Node, EJS, Contentful API 
+Node, Express, Contentful API, EJS 
