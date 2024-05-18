@@ -30,10 +30,16 @@ app.get('/', async(req, res) => {
         
         let itemsTextWithPic = [];
         response.items.forEach((item) => {
+
+            let gallery = item.fields.otherImages;
+
+            console.log( JSON.stringify(gallery) );
+
             itemsTextWithPic.push( 
                 {
                     text: documentToPlainTextString(item.fields.blogPostBody),
                     picUrl: `https://${item.fields.blogPic.fields.file.url}?w=100`
+                    
                 }
             );          
         });  // end of response.items.forEach() 
