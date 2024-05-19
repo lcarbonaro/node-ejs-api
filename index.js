@@ -29,17 +29,22 @@ app.get('/', async(req, res) => {
         */
         
         let itemsTextWithPic = [];
-        response.items.forEach((item) => {
+        response.items.forEach((item) => {            
 
-            let gallery = item.fields.otherImages;
-
-            console.log( JSON.stringify(gallery) );
-
+            // added for 'media many files' field
+            let gallery = [];             
+            item.fields.otherImages?.forEach((oi)=>{
+                gallery.push(
+                    {url: `https://${oi.fields.file.url}?w=200` }
+                );
+            });
+            /**/
+            
             itemsTextWithPic.push( 
                 {
                     text: documentToPlainTextString(item.fields.blogPostBody),
-                    picUrl: `https://${item.fields.blogPic.fields.file.url}?w=100`
-                    
+                    picUrl: `https://${item.fields.blogPic.fields.file.url}?w=50`,
+                    gallery // for 'media many files' field                   
                 }
             );          
         });  // end of response.items.forEach() 

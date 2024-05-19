@@ -9,9 +9,19 @@
         <% items.forEach(function(item) { %>
             
           <li>
-            <%= item.text %>
-            <br/>
+                       
             <img src="<%= item.picUrl %>" alt="">
+            <br>
+            <p> <%= item.text %> </p>
+            <br>            
+
+            <p>Gallery</p>
+            <% item.gallery.forEach(function(g) { %>            
+              <img src="<%= g.url %>" alt="">            
+            <% }); %>
+
+            
+
           </li>
 
           <hr/>
