@@ -16,14 +16,14 @@ const client = contentful.createClient({
     accessToken: process.env.ACCESS_TOKEN
 })
 
-app.get('/product', async (req,res) => {
+app.get('/product/:id', async (req,res) => {
 
     //console.log('in /product route');
     //console.log(req.query.id);
 
     let product;
 
-    client.getEntry(req.query.id)
+    client.getEntry(req.params.id)
     .then((prod) => {
          
         let gallery = [];             
@@ -55,7 +55,7 @@ app.get('/product', async (req,res) => {
 
 });  // end of app.get('/product')
 
-app.get('/catalog', async (req,res) => {
+app.get('/products', async (req,res) => {
 
     client.getEntries({ content_type: 'productCatalog' })
     .then((entries) => {

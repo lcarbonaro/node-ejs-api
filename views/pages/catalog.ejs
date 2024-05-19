@@ -6,11 +6,11 @@
 
 <body>
     <p> <%= title %> </p>
-    
+
     <ul>
         <% catalog.forEach(function(item) { %>
 
-            <a href="/product?id=<%= item.entryId %>">
+            <a href="/product/<%= item.entryId %>">
 
                 <li>
                     <img src="<%= item.productImg %>" alt="">
