@@ -1,0 +1,7 @@
+li {
+    list-style-type: none;
+}
+
+a.no-underline {
+    text-decoration: none;
+}

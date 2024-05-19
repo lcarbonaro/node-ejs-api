@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <head>
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
@@ -10,7 +11,7 @@
     <ul>
         <% catalog.forEach(function(item) { %>
 
-            <a href="/product/<%= item.entryId %>">
+            <a class="no-underline" href="/product/<%= item.entryId %>">
 
                 <li>
                     <img src="<%= item.productImg %>" alt="">
