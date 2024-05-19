@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<head>
+
+</head>
+
+<body>
+    <p> <%= title %> </p>
+    
+    <ul>
+        <% catalog.forEach(function(item) { %>
+
+            <a href="/product?id=<%= item.entryId %>">
+
+                <li>
+                    <img src="<%= item.productImg %>" alt="">
+                    <br>
+                    <p>Name: <%= item.productName %> </p>
+                    <p>Desc: <%= item.productDesc %> </p>
+                    <p>Category: <%= item.productCat %> </p>
+                </li>
+
+            </a>
+
+            <hr />
+
+            <% }); %>
+    </ul>
+
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-var contentful = require('contentful');
+const contentful = require('contentful');
 
 const { documentToPlainTextString } = require('@contentful/rich-text-plain-text-renderer');
 
@@ -16,9 +16,79 @@ const client = contentful.createClient({
     accessToken: process.env.ACCESS_TOKEN
 })
 
+app.get('/product', async (req,res) => {
+
+    //console.log('in /product route');
+    //console.log(req.query.id);
+
+    let product;
+
+    client.getEntry(req.query.id)
+    .then((prod) => {
+         
+        let gallery = [];             
+
+        // include main image in gallery
+        gallery.push({
+            url: `https://${prod.fields.mainImage.fields.file.url}?w=250`,
+        });
+
+        // add gallery images
+        prod.fields.imageGallery.forEach((img)=>{
+            gallery.push(
+                {url: `https://${img.fields.file.url}?w=250` }
+            );
+        });
+                 
+        product = {
+            name: prod.fields.name,
+            desc:  documentToPlainTextString(prod.fields.description),
+            cat: prod.fields.category,
+            gallery
+        };
+
+        res.render('pages/product', {        
+            product
+        });  
+         
+    });  // end of .then()
+
+});  // end of app.get('/product')
+
+app.get('/catalog', async (req,res) => {
+
+    client.getEntries({ content_type: 'productCatalog' })
+    .then((entries) => {
+
+        //console.log( JSON.stringify( entries.items[0]) );
+        
+        let catalog = [];
+        entries.items.forEach((item) => { 
+            catalog.push({
+                entryId: item.sys.id, // entry id
+                productName: item.fields.name,
+                productDesc:  documentToPlainTextString(item.fields.description),
+                productCat: item.fields.category,
+                productImg: `https://${item.fields.mainImage.fields.file.url}?w=100`,
+            });
+
+        });  // end of forEach()
+
+        res.render('pages/catalog', {
+            title: 'My Product Catalog',              
+            catalog
+        });  // end of res.render('pages/catalog')
+
+        
+
+
+    }); // end of .then()
+
+});  // app.get('/products'
+
 app.get('/', async(req, res) => {
 
-    client.getEntries()
+    client.getEntries({ content_type: 'post' })  // had to add this since I now have different content types
     .then((response) => {
         
         /* had this for just text before
@@ -29,7 +99,7 @@ app.get('/', async(req, res) => {
         */
         
         let itemsTextWithPic = [];
-        response.items.forEach((item) => {            
+        response.items.forEach((item) => {                  
 
             // added for 'media many files' field
             let gallery = [];             

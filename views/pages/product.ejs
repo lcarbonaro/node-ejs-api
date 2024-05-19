@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    
+  <h2> <%= product.name %> </h2>
+  <h3> <%= product.desc %> (<%= product.cat %>)</h3>
+  
+  <% product.gallery.forEach(function(g) { %>            
+    <img src="<%= g.url %>" alt="">            
+  <% }); %>
+
+  <hr>
+
+  <a href="/catalog">Back To Catalog</a>
+
+    
+</body>
+
+</html>
